@@ -41,8 +41,7 @@ public class ParticleSystem
 		}
 		if (isValid)
 		{
-			this.needToReorderObjects = true;
-			this.sceneObjects.add(new Particle(this.origin, this.parent, this.currentAccelerationModifier.copy()));
+			this.addSceneObject(new Particle(this.origin, this.parent, this.currentAccelerationModifier.copy()));
 		}
 	}
 
@@ -109,8 +108,7 @@ public class ParticleSystem
 
 	public void addBlackHole(float x, float y)
 	{
-		this.needToReorderObjects = true;
-		this.sceneObjects.add(new BlackHole(x, y, this.parent));
+		this.addSceneObject(new BlackHole(x, y, this.parent));
 	}
 
 	public void addAccelerationToAllParticles(float x, float y)
@@ -140,5 +138,11 @@ public class ParticleSystem
 	public PVector getCurrentAccelerationModifier()
 	{
 		return this.currentAccelerationModifier;
+	}
+
+	public void addSceneObject(SceneObject toAdd)
+	{
+		this.needToReorderObjects = true;
+		this.sceneObjects.add(toAdd);
 	}
 }
