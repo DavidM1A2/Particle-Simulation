@@ -118,6 +118,10 @@ public class ParticleEnvironment extends PApplet
 		{
 			this.shiftDown = false;
 		}
+		if (this.keyCode == ESC)
+		{
+			System.exit(0);
+		}
 	}
 
 	public void drawTextOverlay()

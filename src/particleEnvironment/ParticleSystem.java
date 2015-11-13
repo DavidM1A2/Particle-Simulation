@@ -31,7 +31,7 @@ public class ParticleSystem
 			if (sceneObject instanceof Particle)
 			{
 				Particle particle = (Particle) sceneObject;
-				if (this.origin.dist(particle.getParticleLocation()) <= (particle.getParticleWidth() * 1.2))
+				if (this.origin.dist(particle.getParticleLocation()) <= (particle.getParticleWidth()))
 				{
 					isValid = false;
 				}

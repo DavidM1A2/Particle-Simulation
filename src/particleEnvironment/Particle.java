@@ -77,7 +77,7 @@ public class Particle implements SceneObject
 
 		this.velocity.add(this.acceleration);
 		this.location.add(this.velocity);
-		this.lifespan = this.lifespan - 0.1f;
+		this.lifespan = this.lifespan - 0.5f;
 	}
 
 	// Method to display
@@ -97,14 +97,7 @@ public class Particle implements SceneObject
 	@Override
 	public boolean isDead()
 	{
-		if (this.lifespan < 0.0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return this.lifespan < 0.0;
 	}
 
 	public boolean isColliding(Particle other)
