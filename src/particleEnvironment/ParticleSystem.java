@@ -16,6 +16,7 @@ public class ParticleSystem
 	private final PApplet parent;
 	private final List<SceneObject> sceneObjects = new ArrayList<SceneObject>();
 	private PVector currentAccelerationModifier = new PVector(0, 0.1f);
+	private boolean needToReorderObjects = false;
 
 	public ParticleSystem(PVector location, PApplet parent)
 	{
@@ -40,13 +41,17 @@ public class ParticleSystem
 		}
 		if (isValid)
 		{
+			this.needToReorderObjects = true;
 			this.sceneObjects.add(new Particle(this.origin, this.parent, this.currentAccelerationModifier.copy()));
 		}
 	}
 
 	public void run(boolean isPaused)
 	{
-		Collections.sort(this.sceneObjects);
+		if (this.needToReorderObjects)
+		{
+			Collections.sort(this.sceneObjects);
+		}
 		Iterator<SceneObject> sceneObjectsIterator = this.sceneObjects.iterator();
 		while (sceneObjectsIterator.hasNext())
 		{
@@ -104,6 +109,7 @@ public class ParticleSystem
 
 	public void addBlackHole(float x, float y)
 	{
+		this.needToReorderObjects = true;
 		this.sceneObjects.add(new BlackHole(x, y, this.parent));
 	}
 
