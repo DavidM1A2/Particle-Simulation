@@ -50,6 +50,7 @@ public class ParticleSystem
 		if (this.needToReorderObjects)
 		{
 			Collections.sort(this.sceneObjects);
+			this.needToReorderObjects = false;
 		}
 		Iterator<SceneObject> sceneObjectsIterator = this.sceneObjects.iterator();
 		while (sceneObjectsIterator.hasNext())
