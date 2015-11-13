@@ -1,6 +1,7 @@
 package particleEnvironment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -45,6 +46,7 @@ public class ParticleSystem
 
 	public void run(boolean isPaused)
 	{
+		Collections.sort(this.sceneObjects);
 		Iterator<SceneObject> sceneObjectsIterator = this.sceneObjects.iterator();
 		while (sceneObjectsIterator.hasNext())
 		{

@@ -6,7 +6,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class BlackHole implements SceneObject
+public class BlackHole extends SceneObject
 {
 	private final PVector location;
 	private final PApplet parent;
@@ -157,5 +157,11 @@ public class BlackHole implements SceneObject
 	public static void loadIcon(PApplet parent)
 	{
 		BlackHole.imageSource = parent.loadImage("http://icons.iconarchive.com/icons/zairaam/bumpy-planets/256/blackhole-icon.png", "png");
+	}
+
+	@Override
+	public int renderPriority()
+	{
+		return 4;
 	}
 }

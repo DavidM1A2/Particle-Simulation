@@ -5,7 +5,7 @@ import java.util.List;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class Particle implements SceneObject
+public class Particle extends SceneObject
 {
 	private PVector location;
 	private PVector velocity;
@@ -205,5 +205,11 @@ public class Particle implements SceneObject
 	public float getLifespan()
 	{
 		return this.lifespan;
+	}
+
+	@Override
+	public int renderPriority()
+	{
+		return 5;
 	}
 }
