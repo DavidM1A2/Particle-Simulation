@@ -109,6 +109,10 @@ public class ParticleEnvironment extends PApplet
 		{
 			this.hideTextOverlay = !this.hideTextOverlay;
 		}
+		if ((this.keyCode == 'o') || (this.keyCode == 'O'))
+		{
+			this.particleSystem.addWall(this.mouseX, this.mouseY, 60, 30);
+		}
 	}
 
 	@Override
@@ -133,7 +137,7 @@ public class ParticleEnvironment extends PApplet
 		{
 			this.text(String.format("Particle Acceleration Y = %.1f", this.particleSystem.getCurrentAccelerationModifier().x), 5, 15);
 			this.text(String.format("Particle Acceleration X = %.1f", this.particleSystem.getCurrentAccelerationModifier().y), 5, 30);
-			this.text("Controls:\nSpace to pause\nArrow keys to change gravity\nR to reset the environment\nHolding shift increments acceleration by +/- 1\nUse B to change the background color\nS to hide this overlay\nH to create a black hole`", 5, 45);
+			this.text("Controls:\nSpace to pause\nArrow keys to change gravity\nR to reset the environment\nHolding shift increments acceleration by +/- 1\nUse B to change the background color\nS to hide this overlay\nH to create a black hole\nRight clicking adds a single particle", 5, 45);
 			this.text(String.format("Frame rate: %.0f", this.frameRate), this.width - this.textWidth(String.format("Frame rate: %.0f", this.frameRate)) - 10, 15);
 		}
 		else
