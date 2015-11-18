@@ -112,6 +112,11 @@ public class ParticleSystem
 		this.addSceneObject(new BlackHole(x, y, this.parent));
 	}
 
+	public void addWall(float x, float y, float width, float height)
+	{
+		this.addSceneObject(new Wall(new PVector(x, y), this.parent, new PVector(width, height)));
+	}
+
 	public void addAccelerationToAllParticles(float x, float y)
 	{
 		for (SceneObject sceneObject : this.sceneObjects)

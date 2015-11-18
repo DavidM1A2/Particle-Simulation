@@ -15,8 +15,8 @@ public class Particle extends SceneObject
 	private final float particleMass;
 	private final int myColor;
 	private final PApplet parent;
-	private static final float MAX_SIZE = 3.0f;
-	private static final float MIN_SIZE = 3.0f;
+	private static final float MAX_SIZE = 8.0f;
+	private static final float MIN_SIZE = 5.0f;
 
 	public Particle(PVector location, PApplet parent, PVector acceleration)
 	{
@@ -37,26 +37,26 @@ public class Particle extends SceneObject
 		// Hit the right side
 		if ((this.location.x + this.getParticleRadius()) > this.parent.width)
 		{
-			this.velocity.x = -this.velocity.x;
+			this.invertXVelocity();
 			this.location.x = this.parent.width - this.getParticleRadius();
 		}
 		// Hit the left side
 		else if ((this.location.x - this.getParticleRadius()) < 0)
 		{
-			this.velocity.x = -this.velocity.x;
+			this.invertXVelocity();
 			this.location.x = this.getParticleRadius();
 		}
 
 		// Hit the bottom
 		if ((this.location.y + this.getParticleRadius()) > this.parent.height)
 		{
-			this.velocity.y = -this.velocity.y;
+			this.invertYVelocity();
 			this.location.y = this.parent.height - this.getParticleRadius();
 		}
 		// Hit the top
 		else if ((this.location.y - this.getParticleRadius()) < 0)
 		{
-			this.velocity.y = -this.velocity.y;
+			this.invertYVelocity();
 			this.location.y = this.getParticleRadius();
 		}
 
@@ -77,7 +77,7 @@ public class Particle extends SceneObject
 
 		this.velocity.add(this.acceleration);
 		this.location.add(this.velocity);
-		this.lifespan = this.lifespan - 0.5f;
+		this.lifespan = this.lifespan - 0.1f;
 	}
 
 	// Method to display
@@ -144,7 +144,7 @@ public class Particle extends SceneObject
 		other.velocity = other.velocity.sub(impulse2.copy().mult(im2));
 	}
 
-	private float getParticleRadius()
+	public float getParticleRadius()
 	{
 		return this.getParticleWidth() / 2;
 	}
@@ -211,5 +211,15 @@ public class Particle extends SceneObject
 	public int renderPriority()
 	{
 		return 5;
+	}
+
+	public void invertXVelocity()
+	{
+		this.velocity.x = -this.velocity.x;
+	}
+
+	public void invertYVelocity()
+	{
+		this.velocity.y = -this.velocity.y;
 	}
 }

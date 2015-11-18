@@ -1,3 +1,4 @@
+
 package particleEnvironment;
 
 import java.awt.Toolkit;
@@ -124,6 +125,10 @@ public class ParticleEnvironment extends PApplet
 		if ((this.keyCode == 's') || (this.keyCode == 'S'))
 		{
 			this.hideTextOverlay = !this.hideTextOverlay;
+		}
+		if ((this.keyCode == 'o') || (this.keyCode == 'O'))
+		{
+			this.particleSystem.addWall(this.mouseX, this.mouseY, 60, 30);
 		}
 	}
 
