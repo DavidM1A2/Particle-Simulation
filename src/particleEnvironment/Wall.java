@@ -32,22 +32,39 @@ public class Wall extends SceneObject
 			if (sceneObject instanceof Particle)
 			{
 				Particle particle = (Particle) sceneObject;
-
-				// if (((particle.getParticleLocation().x +
-				// particle.getParticleRadius()) > this.location.x) &&
-				// ((particle.getParticleLocation().x +
-				// particle.getParticleRadius()) < (this.location.x +
-				// this.size.x)))
-				// {
-				// if (((particle.getParticleLocation().y +
-				// particle.getParticleRadius()) > this.location.y) &&
-				// ((particle.getParticleLocation().y +
-				// particle.getParticleRadius()) < (this.location.y +
-				// this.size.y)))
-				// {
-				// particle.invertXVelocity();
-				// }
-				// }
+				
+				// colliding with right
+				 if (((particle.getParticleLocation().x +
+				 particle.getParticleRadius()) > this.location.x) &&
+				 ((particle.getParticleLocation().x +
+				 particle.getParticleRadius()) < (this.location.x +
+				 this.size.x)))
+				 {
+					 if (((particle.getParticleLocation().y + 
+					 particle.getParticleRadius()) >
+					 this.location.y) &&((particle.getParticleLocation().y + 
+					 particle.getParticleRadius()) <
+					 (this.location.y +this.size.y)))
+					 {
+						 particle.invertXVelocity();
+				     }
+				 }
+				 // colliding with top
+				 if (((particle.getParticleLocation().y +
+				 particle.getParticleRadius()) > this.location.y) &&
+				 ((particle.getParticleLocation().y +
+				 particle.getParticleRadius()) < (this.location.y +
+				 this.size.y)))
+				 {
+					 if (((particle.getParticleLocation().x + 
+					 particle.getParticleRadius()) >
+					 this.location.x) && ((particle.getParticleLocation().x + 
+					 particle.getParticleRadius()) <
+					 (this.location.x +this.size.x)))
+					 {
+						 particle.invertYVelocity();
+				     }
+				 }
 			}
 		}
 	}
