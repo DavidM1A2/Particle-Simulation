@@ -22,6 +22,7 @@ public class ParticleEnvironment extends PApplet
 	private Minim min;
 	private AudioInput in;
 	private float sum;
+	private CircularBuffer buf;
 
 	public static void main(String args[])
 	{
@@ -166,12 +167,15 @@ public class ParticleEnvironment extends PApplet
 		{
 			this.textSize(40f);
 			this.text("Simulation Paused", (this.width / 2) - (this.textWidth("Simulation Paused".toCharArray(), 0, "Simulation Paused".length()) / 2), this.height / 2);
-			this.text(sum, (this.width / 2) - (this.textWidth("Simulation Paused".toCharArray(), 0, "Simulation Paused".length()) / 2), (this.height / 2) + 50);
+			this.text(""+ buf.avg(), (this.width / 2) - (this.textWidth("Simulation Paused".toCharArray(), 0, "Simulation Paused".length()) / 2), (this.height / 2) + 50);
 		}
 	}
 	private class listener extends Thread{
 		
+		
+		
 		public listener(){
+			buf = new CircularBuffer(30);
 			
 		}
 		
@@ -187,9 +191,15 @@ public class ParticleEnvironment extends PApplet
 				}
 				for (int i = 0; i < in.bufferSize() - 1; i++) {
 					sum = Math.abs(((in.left.get(i)) + (in.right.get(i)))*10);
-					println(sum);
+					if(sum>2){
+						sum= 2;
+					}
+					buf.addSum(sum);
+					
+					Particle.setBouncy((float)buf.avg());
 
 				}
+				
 			}
 			
 

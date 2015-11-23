@@ -11,7 +11,7 @@ public class Particle extends SceneObject
 	private PVector velocity;
 	private PVector acceleration;
 	private float lifespan;
-	private final float restitutionConstant = 1.0f;
+	private static float restitutionConstant = 1.0f;
 	private final float particleMass;
 	private final int myColor;
 	private final PApplet parent;
@@ -221,5 +221,9 @@ public class Particle extends SceneObject
 	public void invertYVelocity()
 	{
 		this.velocity.y = -this.velocity.y;
+	}
+	
+	public static void setBouncy(float argument){
+		restitutionConstant = argument;
 	}
 }
