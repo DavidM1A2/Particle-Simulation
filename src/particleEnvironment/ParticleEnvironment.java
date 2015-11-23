@@ -3,13 +3,10 @@ package particleEnvironment;
 
 import java.awt.Toolkit;
 
+import ddf.minim.AudioInput;
+import ddf.minim.Minim;
 import processing.core.PApplet;
 import processing.core.PVector;
-
-import ddf.minim.*;
-import ddf.minim.signals.*;
-import ddf.minim.analysis.*;
-import ddf.minim.effects.*;
 
 public class ParticleEnvironment extends PApplet
 {
@@ -19,6 +16,7 @@ public class ParticleEnvironment extends PApplet
 	private int backgroundColor;
 	private boolean shiftDown = false;
 	private boolean hideTextOverlay = false;
+	private boolean disableSoundInput = false;
 	private Minim min;
 	private AudioInput in;
 	private float sum;
@@ -41,8 +39,8 @@ public class ParticleEnvironment extends PApplet
 	{
 		this.particleSystem = new ParticleSystem(new PVector(this.width / 2, 50), this);
 		this.backgroundColor = this.color(this.random(255), this.random(255), this.random(255));
-		min = new Minim(this);
-		in = min.getLineIn();
+		this.min = new Minim(this);
+		this.in = this.min.getLineIn();
 		listener blah = new listener();
 		blah.start();
 	}
@@ -51,16 +49,13 @@ public class ParticleEnvironment extends PApplet
 	public void draw()
 	{
 		this.background(this.backgroundColor);
-		
-		
-		 
 
 		if (this.createParticles)
 		{
 			if (!this.pause)
 			{
 				this.particleSystem.addParticle();
-				//this.particleSystem.setAccelerationForAllParticles(x, y);
+				// this.particleSystem.setAccelerationForAllParticles(x, y);
 			}
 		}
 
@@ -131,6 +126,10 @@ public class ParticleEnvironment extends PApplet
 		{
 			this.particleSystem.addWall(this.mouseX, this.mouseY, 60, 30);
 		}
+		if ((this.keyCode == 'n') || ((this.keyCode) == 'N'))
+		{
+			this.disableSoundInput = !this.disableSoundInput;
+		}
 	}
 
 	@Override
@@ -155,7 +154,7 @@ public class ParticleEnvironment extends PApplet
 		{
 			this.text(String.format("Particle Acceleration Y = %.1f", this.particleSystem.getCurrentAccelerationModifier().x), 5, 15);
 			this.text(String.format("Particle Acceleration X = %.1f", this.particleSystem.getCurrentAccelerationModifier().y), 5, 30);
-			this.text("Controls:\nSpace to pause\nArrow keys to change gravity\nR to reset the environment\nHolding shift increments acceleration by +/- 1\nUse B to change the background color\nS to hide this overlay\nH to create a black hole`", 5, 45);
+			this.text("Controls:\nSpace to pause\nArrow keys to change gravity\nR to reset the environment\nHolding shift increments acceleration by +/- 1\nUse B to change the background color\nS to hide this overlay\nH to create a black hole\nN to disable sound input; Currenly: " + this.disableSoundInput, 5, 45);
 			this.text(String.format("Frame rate: %.0f", this.frameRate), this.width - this.textWidth(String.format("Frame rate: %.0f", this.frameRate)) - 10, 15);
 		}
 		else
@@ -167,43 +166,57 @@ public class ParticleEnvironment extends PApplet
 		{
 			this.textSize(40f);
 			this.text("Simulation Paused", (this.width / 2) - (this.textWidth("Simulation Paused".toCharArray(), 0, "Simulation Paused".length()) / 2), this.height / 2);
-			this.text(""+ buf.avg(), (this.width / 2) - (this.textWidth("Simulation Paused".toCharArray(), 0, "Simulation Paused".length()) / 2), (this.height / 2) + 50);
+			this.text("" + this.buf.avg(), (this.width / 2) - (this.textWidth("Simulation Paused".toCharArray(), 0, "Simulation Paused".length()) / 2), (this.height / 2) + 50);
 		}
 	}
-	private class listener extends Thread{
-		
-		
-		
-		public listener(){
-			buf = new CircularBuffer(30);
-			
+
+	private class listener extends Thread
+	{
+
+		public listener()
+		{
+			ParticleEnvironment.this.buf = new CircularBuffer(30);
+
 		}
-		
+
 		@Override
-		public void run() {
-			
-			while (true) {
-				try {
+		public void run()
+		{
+
+			while (true)
+			{
+				try
+				{
 					Thread.sleep(50);
-				} catch (InterruptedException e) {
+				}
+				catch (InterruptedException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				for (int i = 0; i < in.bufferSize() - 1; i++) {
-					sum = Math.abs(((in.left.get(i)) + (in.right.get(i)))*10);
-					if(sum>2){
-						sum= 2;
+				for (int i = 0; i < (ParticleEnvironment.this.in.bufferSize() - 1); i++)
+				{
+					ParticleEnvironment.this.sum = Math.abs(((ParticleEnvironment.this.in.left.get(i)) + (ParticleEnvironment.this.in.right.get(i))) * 10);
+					if (ParticleEnvironment.this.sum > 2)
+					{
+						ParticleEnvironment.this.sum = 2;
 					}
-					buf.addSum(sum);
-					
-					Particle.setBouncy((float)buf.avg());
+					ParticleEnvironment.this.buf.addSum(ParticleEnvironment.this.sum);
+
+					if (!ParticleEnvironment.this.disableSoundInput)
+					{
+						Particle.setBouncy((float) ParticleEnvironment.this.buf.avg());
+					}
+					else
+					{
+						Particle.setBouncy(1.0f);
+					}
 
 				}
-				
+
 			}
-			
 
 		}
-		
+
 	}
 }
