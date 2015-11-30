@@ -123,7 +123,7 @@ public class ParticleEnvironment extends PApplet
 		}
 		if ((this.keyCode == 'o') || (this.keyCode == 'O'))
 		{
-			this.particleSystem.addWall(this.mouseX, this.mouseY, this.random(50, 100), this.random(50, 100));
+			this.particleSystem.addWall(this.mouseX, this.mouseY, 400, 400); //this.random(50, 100), this.random(50, 100));
 		}
 		if ((this.keyCode == 'n') || ((this.keyCode) == 'N'))
 		{

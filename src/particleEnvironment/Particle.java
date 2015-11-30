@@ -35,29 +35,29 @@ public class Particle extends SceneObject
 	public void update(List<SceneObject> sceneObjects)
 	{
 		// Hit the right side
-		if ((this.location.x + this.getParticleRadius()) > this.parent.width)
+		if ((this.location.x + this.getRadius()) > this.parent.width)
 		{
 			this.invertXVelocity();
-			this.location.x = this.parent.width - this.getParticleRadius();
+			this.location.x = this.parent.width - this.getRadius();
 		}
 		// Hit the left side
-		else if ((this.location.x - this.getParticleRadius()) < 0)
+		else if ((this.location.x - this.getRadius()) < 0)
 		{
 			this.invertXVelocity();
-			this.location.x = this.getParticleRadius();
+			this.location.x = this.getRadius();
 		}
 
 		// Hit the bottom
-		if ((this.location.y + this.getParticleRadius()) > this.parent.height)
+		if ((this.location.y + this.getRadius()) > this.parent.height)
 		{
 			this.invertYVelocity();
-			this.location.y = this.parent.height - this.getParticleRadius();
+			this.location.y = this.parent.height - this.getRadius();
 		}
 		// Hit the top
-		else if ((this.location.y - this.getParticleRadius()) < 0)
+		else if ((this.location.y - this.getRadius()) < 0)
 		{
 			this.invertYVelocity();
-			this.location.y = this.getParticleRadius();
+			this.location.y = this.getRadius();
 		}
 
 		for (SceneObject sceneObject : sceneObjects)
@@ -102,7 +102,7 @@ public class Particle extends SceneObject
 
 	public boolean isColliding(Particle other)
 	{
-		return (this.location.dist(other.location) < (other.getParticleRadius() + this.getParticleRadius()));
+		return (this.location.dist(other.location) < (other.getRadius() + this.getRadius()));
 	}
 
 	public void resolveCollision(Particle other)
@@ -110,7 +110,7 @@ public class Particle extends SceneObject
 		float distance = this.location.dist(other.location);
 		PVector delta = this.location.copy().sub(other.location);
 
-		PVector minimumTranslationDistance = delta.copy().mult(((this.getParticleRadius() + other.getParticleRadius()) - distance) / distance);
+		PVector minimumTranslationDistance = delta.copy().mult(((this.getRadius() + other.getRadius()) - distance) / distance);
 
 		// Inverse mass quantities
 		float im1 = 1.0f / this.getParticleMass();
@@ -144,7 +144,7 @@ public class Particle extends SceneObject
 		other.velocity = other.velocity.sub(impulse2.copy().mult(im2));
 	}
 
-	public float getParticleRadius()
+	public float getRadius()
 	{
 		return this.getParticleWidth() / 2;
 	}
