@@ -18,7 +18,7 @@ public class Wall extends SceneObject {
 
 	@Override
 	public void display() {
-		this.parent.rect(this.location.x, this.location.y, this.size.x, this.size.y);
+		this.parent.rect(this.location.x, this.location.y, this.size.x, this.size.y); // rect(x of upper left corner, y of upper left, width, height)
 	}
 
 	@Override
@@ -26,23 +26,32 @@ public class Wall extends SceneObject {
 		for (SceneObject sceneObject : sceneObjects) {
 			if (sceneObject instanceof Particle) {
 				Particle particle = (Particle) sceneObject;
+				float particleBottom = particle.getParticleLocation().y + particle.getParticleRadius();
+				float particleTop = particle.getParticleLocation().y - particle.getParticleRadius();
+				float particleRight = particle.getParticleLocation().x + particle.getParticleRadius();
+				float particleLeft = particle.getParticleLocation().x - particle.getParticleRadius();
+				
+				// colliding with left
+				if ((particleRight > this.location.x) && (particleRight < (this.location.x + this.size.x))) {
+					if ((particleBottom > this.location.y) && (particleBottom < (this.location.y + this.size.y))) {
+						particle.invertXVelocity();
+					}
+				}
 				// colliding with right
-				if (((particle.getParticleLocation().x + particle.getParticleRadius()) > this.location.x)
-						&& ((particle.getParticleLocation().x + particle.getParticleRadius()) < (this.location.x
-						+ this.size.x))) {
-				if (((particle.getParticleLocation().y + particle.getParticleRadius()) > this.location.y)
-						&& ((particle.getParticleLocation().y + particle.getParticleRadius()) < (this.location.y
-						+ this.size.y))) {
+				if ((particleLeft > this.location.x) && (particleLeft < (this.location.x + this.size.x))) {
+					if ((particleBottom > this.location.y) && (particleBottom < (this.location.y + this.size.y))) {
 						particle.invertXVelocity();
 					}
 				}
 				// colliding with top
-				if (((particle.getParticleLocation().y + particle.getParticleRadius()) > this.location.y)
-						&& ((particle.getParticleLocation().y + particle.getParticleRadius()) < (this.location.y
-						+ this.size.y))) {
-				if (((particle.getParticleLocation().x + particle.getParticleRadius()) > this.location.x)
-						&& ((particle.getParticleLocation().x + particle.getParticleRadius()) < (this.location.x
-						+ this.size.x))) {
+				if ((particleBottom > this.location.y) && (particleBottom < (this.location.y + this.size.y))) {
+					if (((particleRight) > this.location.x) && ((particleRight) < (this.location.x + this.size.x))) {
+						particle.invertYVelocity();
+					}
+				}
+				// colliding with bottom
+				if ((particleTop > this.location.y) && (particleTop < (this.location.y + this.size.y))) {
+					if (((particleRight) > this.location.x) && ((particleRight) < (this.location.x + this.size.x))) {
 						particle.invertYVelocity();
 					}
 				}
