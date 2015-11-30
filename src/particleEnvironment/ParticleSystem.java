@@ -70,8 +70,7 @@ public class ParticleSystem
 
 	public void resetSimulation()
 	{
-		this.clearParticles();
-		this.clearBlackHoles();
+		this.sceneObjects.clear();
 		this.setAccelerationForAllParticles(0, 0.1f);
 	}
 
