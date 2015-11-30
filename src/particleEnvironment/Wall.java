@@ -1,5 +1,6 @@
 package particleEnvironment;
 
+import java.awt.Rectangle;
 import java.util.List;
 
 import processing.core.PApplet;
@@ -8,7 +9,7 @@ import processing.core.PVector;
 public class Wall extends SceneObject {
 	private final PApplet parent;
 	private final PVector location;
-	private final PVector size;
+	private final PVector size;	
 
 	public Wall(PVector location, PApplet parent, PVector size) {
 		this.location = location;
@@ -58,6 +59,14 @@ public class Wall extends SceneObject {
 			}
 		}
 	}
+	
+	private boolean collidesWith(Particle particle)
+	{
+		Rectangle particleCollider = new Rectangle((int) (particle.getParticleLocation().x + particle.getParticleRadius()), (int) (particle.getParticleLocation().y + particle.getParticleRadius()), (int) particle.getParticleWidth(), (int) particle.getParticleWidth());
+		Rectangle rectangleCollider = new Rectangle((int) this.location.x, (int) this.location.y, (int) this.size.x, (int) this.size.y);
+		return particleCollider.intersects(rectangleCollider);
+	}
+	
 
 	@Override
 	public boolean isDead() {
