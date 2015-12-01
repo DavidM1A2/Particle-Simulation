@@ -43,17 +43,11 @@ public class Wall extends SceneObject {
 				float particleLeft = particle.getParticleLocation().x - particle.getRadius();
 				
 				if (collidesWith(particle))
-				{
-					int deltaXLeft = Integer.MAX_VALUE;
-					int deltaYTop = Integer.MAX_VALUE;
-					int deltaXRight = Integer.MAX_VALUE;
-					int deltaYBottom = Integer.MAX_VALUE;
-					
-					
-					deltaXLeft = (int) Math.min(deltaXLeft, particleRight - this.location.x);
-					deltaXRight = (int) Math.min(deltaXRight, this.location.x + this.size.x - particleLeft);
-					deltaYTop = (int) Math.min(deltaYTop, particleBottom - this.location.y);
-					deltaYBottom = (int) Math.min(deltaYBottom, this.location.y + this.size.y - particleTop);
+				{					
+					int deltaXLeft = (int) (particleRight - this.location.x);
+					int deltaXRight = (int) (this.location.x + this.size.x - particleLeft);
+					int deltaYTop = (int) (particleBottom - this.location.y);
+					int deltaYBottom = (int) (this.location.y + this.size.y - particleTop);
 							
 					if (Math.min(deltaXLeft, deltaXRight) < Math.min(deltaYTop, deltaYBottom))
 					{
