@@ -32,28 +32,34 @@ public class Wall extends SceneObject {
 				float particleRight = particle.getParticleLocation().x + particle.getParticleRadius();
 				float particleLeft = particle.getParticleLocation().x - particle.getParticleRadius();
 				
-				// colliding with left
-				if ((particleRight > this.location.x) && (particleRight < (this.location.x + this.size.x))) {
-					if ((particleBottom > this.location.y) && (particleBottom < (this.location.y + this.size.y))) {
+				if (collidesWith(particle))
+				{
+					int deltaXLeft = Integer.MAX_VALUE;
+					int deltaYTop = Integer.MAX_VALUE;
+					int deltaXRight = Integer.MAX_VALUE;
+					int deltaYBottom = Integer.MAX_VALUE;
+					
+					
+					deltaXLeft = (int) Math.min(deltaXLeft, particleRight - this.location.x);
+					deltaXRight = (int) Math.min(deltaXRight, this.location.x + this.size.x - particleLeft);
+					deltaYTop = (int) Math.min(deltaYTop, particleBottom - this.location.y);
+					deltaYBottom = (int) Math.min(deltaYBottom, this.location.y + this.size.y - particleTop);
+							
+					if (Math.min(deltaXLeft, deltaXRight) < Math.min(deltaYTop, deltaYBottom))
+					{
 						particle.invertXVelocity();
+						if (deltaXLeft > deltaXRight) // Hit left
+							particle.getParticleLocation().add(deltaXRight, 0);
+						else							
+							particle.getParticleLocation().add(-deltaXLeft, 0);
 					}
-				}
-				// colliding with right
-				if ((particleLeft > this.location.x) && (particleLeft < (this.location.x + this.size.x))) {
-					if ((particleBottom > this.location.y) && (particleBottom < (this.location.y + this.size.y))) {
-						particle.invertXVelocity();
-					}
-				}
-				// colliding with top
-				if ((particleBottom > this.location.y) && (particleBottom < (this.location.y + this.size.y))) {
-					if (((particleRight) > this.location.x) && ((particleRight) < (this.location.x + this.size.x))) {
+					else
+					{
 						particle.invertYVelocity();
-					}
-				}
-				// colliding with bottom
-				if ((particleTop > this.location.y) && (particleTop < (this.location.y + this.size.y))) {
-					if (((particleRight) > this.location.x) && ((particleRight) < (this.location.x + this.size.x))) {
-						particle.invertYVelocity();
+						if (deltaYTop > deltaYBottom) // Hit left
+							particle.getParticleLocation().add(0, deltaYBottom);
+						else
+						particle.getParticleLocation().add(0, -deltaYTop);					
 					}
 				}
 			}
@@ -62,7 +68,7 @@ public class Wall extends SceneObject {
 	
 	private boolean collidesWith(Particle particle)
 	{
-		Rectangle particleCollider = new Rectangle((int) (particle.getParticleLocation().x + particle.getParticleRadius()), (int) (particle.getParticleLocation().y + particle.getParticleRadius()), (int) particle.getParticleWidth(), (int) particle.getParticleWidth());
+		Rectangle particleCollider = new Rectangle((int) (particle.getParticleLocation().x - particle.getParticleRadius()), (int) (particle.getParticleLocation().y - particle.getParticleRadius()), (int) particle.getParticleWidth(), (int) particle.getParticleWidth());
 		Rectangle rectangleCollider = new Rectangle((int) this.location.x, (int) this.location.y, (int) this.size.x, (int) this.size.y);
 		return particleCollider.intersects(rectangleCollider);
 	}
