@@ -30,7 +30,7 @@ public class ParticleEnvironment extends PApplet
 	@Override
 	public void settings()
 	{
-		this.size(800, 500); // Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
+		this.size(Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height);
 	}
 
 	@Override
@@ -41,7 +41,6 @@ public class ParticleEnvironment extends PApplet
 		this.min = new Minim(this);
 		this.in = this.min.getLineIn();
 		listener blah = new listener();
-		size(800, 500);
 		blah.start();
 	}
 
